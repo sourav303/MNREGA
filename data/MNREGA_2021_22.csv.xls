@@ -1,0 +1,474 @@
+
+              <table align="center" width="99%" border="1" bordercolor="#EBEBEB" style="border-collapse:collapse " cellspacing="0" >
+                <tr bgcolor="#82b4ff">
+                <td align="center" rowspan="3"><b>S.No</b></td>
+                
+                <td align="center" rowspan="3"><b>District</b></td>
+                
+                <td align="center" colspan="12"><b>Agewise Registered and Employed Persons</b></td>
+                
+                  </tr>
+                  <tr bgcolor="#82b4ff">
+                <td colspan="2" align="center"><b>18-30</b></td>
+                <td  colspan="2" align="center"><b>31-40</b></td>
+                 <td  colspan="2" align="center"><b>41-50</b></td>
+                 <td  colspan="2" align="center"><b>51-60</b></td>
+                 <td  colspan="2" align="center"><b>61-80</b></td>
+                    <td  colspan="2" align="center"><b>Greater than 80</b></td>
+                 </tr>
+                 <tr bgcolor="#82b4ff">
+                <td align="center"><b>Registered Persons since Beginning </b></td>
+                <td  align="center"><b>Employed Persons</b></td>
+                 <td align="center"><b>Registered Persons since Beginning </b></td>
+                <td  align="center"><b>Employed Persons</b></td>
+                 <td align="center"><b>Registered Persons since Beginning </b></td>
+                <td  align="center"><b>Employed Persons</b></td>
+               <td align="center"><b>Registered Persons since Beginning </b></td>
+                <td  align="center"><b>Employed Persons</b></td>
+               <td align="center"><b>Registered Persons since Beginning </b></td>
+                <td  align="center"><b>Employed Persons</b></td>
+                  <td align="center"><b>Registered Persons since Beginning </b></td>
+                <td  align="center"><b>Employed Persons</b></td>
+                 </tr>
+                   <tr bgcolor="#82b4ff" align="center">
+    
+    <td>1</td>
+    
+    <td>2</td>
+    
+    <td>3</td>
+    
+    <td>4</td>
+    
+    <td>5</td>
+    
+    <td>6</td>
+    
+    <td>7</td>
+    
+    <td>8</td>
+    
+    <td>9</td>
+    
+    <td>10</td>
+    
+    <td>11</td>
+    
+    <td>12</td>
+    
+    <td>13</td>
+    
+    <td>14</td>
+    
+    </tr>
+                
+                <tr>
+                <td align="center">1</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=24+PARGANAS+(NORTH)&district_code=3215&fin_year=2019-2020&source=national&Digest=0A3PDE6yE9D1zlSR5QwaNQ'>24 PARGANAS (NORTH)</a></td>
+                  <td align="right">101148</td>
+                  <td align="right">6663</td>
+                  <td align="right">616317</td>
+                  <td align="right">71272</td>
+                    <td align="right">605045</td>
+                    <td align="right">96476</td>
+                     <td align="right">531159</td>
+                    <td align="right">89202</td>
+                      <td align="right">424784</td>
+                    <td align="right">58475</td>
+                    <td align="right">50143</td>
+                    <td align="right">3075</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">2</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=24+PARGANAS+SOUTH&district_code=3216&fin_year=2019-2020&source=national&Digest=+XTzT/Pfzmrnmve+zyTvBw'>24 PARGANAS SOUTH</a></td>
+                  <td align="right">356163</td>
+                  <td align="right">23545</td>
+                  <td align="right">1122581</td>
+                  <td align="right">134409</td>
+                    <td align="right">1073341</td>
+                    <td align="right">164490</td>
+                     <td align="right">756449</td>
+                    <td align="right">123959</td>
+                      <td align="right">518549</td>
+                    <td align="right">75650</td>
+                    <td align="right">52710</td>
+                    <td align="right">4178</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">3</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=ALIPURDUAR&district_code=3220&fin_year=2019-2020&source=national&Digest=rtmJOExP2ZT+BZk1aJ+sQA'>ALIPURDUAR</a></td>
+                  <td align="right">50514</td>
+                  <td align="right">6561</td>
+                  <td align="right">264282</td>
+                  <td align="right">79747</td>
+                    <td align="right">245353</td>
+                    <td align="right">92764</td>
+                     <td align="right">202733</td>
+                    <td align="right">86642</td>
+                      <td align="right">171229</td>
+                    <td align="right">62418</td>
+                    <td align="right">23451</td>
+                    <td align="right">3476</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">4</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=BANKURA&district_code=3213&fin_year=2019-2020&source=national&Digest=lbLu1U0B6GCTxQlylstuFQ'>BANKURA</a></td>
+                  <td align="right">77518</td>
+                  <td align="right">6295</td>
+                  <td align="right">570487</td>
+                  <td align="right">141914</td>
+                    <td align="right">571037</td>
+                    <td align="right">165686</td>
+                     <td align="right">438479</td>
+                    <td align="right">135844</td>
+                      <td align="right">360705</td>
+                    <td align="right">80064</td>
+                    <td align="right">41122</td>
+                    <td align="right">2975</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">5</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=BIRBHUM&district_code=3203&fin_year=2019-2020&source=national&Digest=ESBiu6DkjxxXl9c4z3es/w'>BIRBHUM</a></td>
+                  <td align="right">65727</td>
+                  <td align="right">9165</td>
+                  <td align="right">554974</td>
+                  <td align="right">127453</td>
+                    <td align="right">598715</td>
+                    <td align="right">178136</td>
+                     <td align="right">465480</td>
+                    <td align="right">158898</td>
+                      <td align="right">383574</td>
+                    <td align="right">109799</td>
+                    <td align="right">38357</td>
+                    <td align="right">5284</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">6</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=COOCHBEHAR&district_code=3208&fin_year=2019-2020&source=national&Digest=Jn4gpV1nVtazoBGJC0bY+A'>COOCHBEHAR</a></td>
+                  <td align="right">81911</td>
+                  <td align="right">11468</td>
+                  <td align="right">438404</td>
+                  <td align="right">99461</td>
+                    <td align="right">449441</td>
+                    <td align="right">128568</td>
+                     <td align="right">397202</td>
+                    <td align="right">125806</td>
+                      <td align="right">341930</td>
+                    <td align="right">88856</td>
+                    <td align="right">49836</td>
+                    <td align="right">5160</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">7</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=Darjeeling+Gorkha+Hill+Council+(DGHC)&district_code=3219&fin_year=2019-2020&source=national&Digest=UgL/pWFgjE/FugEpZSodxA'>Darjeeling Gorkha Hill Council (DGHC)</a></td>
+                  <td align="right">21154</td>
+                  <td align="right">2897</td>
+                  <td align="right">92795</td>
+                  <td align="right">25817</td>
+                    <td align="right">93718</td>
+                    <td align="right">36928</td>
+                     <td align="right">61830</td>
+                    <td align="right">26374</td>
+                      <td align="right">54187</td>
+                    <td align="right">20289</td>
+                    <td align="right">8075</td>
+                    <td align="right">1416</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">8</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=DINAJPUR+DAKSHIN&district_code=3217&fin_year=2019-2020&source=national&Digest=rUkCNPrg1N0mGo0xftuExg'>DINAJPUR DAKSHIN</a></td>
+                  <td align="right">46256</td>
+                  <td align="right">7149</td>
+                  <td align="right">264022</td>
+                  <td align="right">32775</td>
+                    <td align="right">299709</td>
+                    <td align="right">42193</td>
+                     <td align="right">238877</td>
+                    <td align="right">33247</td>
+                      <td align="right">160169</td>
+                    <td align="right">16404</td>
+                    <td align="right">11968</td>
+                    <td align="right">469</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">9</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=DINAJPUR+UTTAR&district_code=3218&fin_year=2019-2020&source=national&Digest=8G0UpPxxq6VzJGal6dEphw'>DINAJPUR UTTAR</a></td>
+                  <td align="right">110062</td>
+                  <td align="right">10814</td>
+                  <td align="right">394713</td>
+                  <td align="right">46306</td>
+                    <td align="right">423343</td>
+                    <td align="right">62669</td>
+                     <td align="right">343581</td>
+                    <td align="right">54973</td>
+                      <td align="right">264863</td>
+                    <td align="right">35506</td>
+                    <td align="right">31999</td>
+                    <td align="right">1972</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">10</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=HOOGHLY&district_code=3206&fin_year=2019-2020&source=national&Digest=52YJ0ON/g3aUtMEUq2EuYQ'>HOOGHLY</a></td>
+                  <td align="right">91115</td>
+                  <td align="right">8343</td>
+                  <td align="right">461021</td>
+                  <td align="right">116154</td>
+                    <td align="right">538065</td>
+                    <td align="right">184514</td>
+                     <td align="right">456168</td>
+                    <td align="right">177382</td>
+                      <td align="right">356099</td>
+                    <td align="right">121689</td>
+                    <td align="right">40351</td>
+                    <td align="right">5672</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">11</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=HOWRAH&district_code=3205&fin_year=2019-2020&source=national&Digest=sDIL8nOgqDQtKyL2XC9zdg'>HOWRAH</a></td>
+                  <td align="right">45345</td>
+                  <td align="right">3337</td>
+                  <td align="right">212568</td>
+                  <td align="right">23668</td>
+                    <td align="right">266040</td>
+                    <td align="right">40352</td>
+                     <td align="right">218264</td>
+                    <td align="right">35424</td>
+                      <td align="right">147854</td>
+                    <td align="right">22585</td>
+                    <td align="right">13216</td>
+                    <td align="right">993</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">12</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=JALPAIGURI&district_code=3207&fin_year=2019-2020&source=national&Digest=0YE6ZU6582dTW0gB3KozEA'>JALPAIGURI</a></td>
+                  <td align="right">34908</td>
+                  <td align="right">9371</td>
+                  <td align="right">311852</td>
+                  <td align="right">91678</td>
+                    <td align="right">331211</td>
+                    <td align="right">111052</td>
+                     <td align="right">269875</td>
+                    <td align="right">101582</td>
+                      <td align="right">232324</td>
+                    <td align="right">74652</td>
+                    <td align="right">30225</td>
+                    <td align="right">3946</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">13</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=JHARGRAM&district_code=3222&fin_year=2019-2020&source=national&Digest=jI1l3hUbchK3kmAPau9cIQ'>JHARGRAM</a></td>
+                  <td align="right">17516</td>
+                  <td align="right">3261</td>
+                  <td align="right">180273</td>
+                  <td align="right">42310</td>
+                    <td align="right">227387</td>
+                    <td align="right">63298</td>
+                     <td align="right">165342</td>
+                    <td align="right">50636</td>
+                      <td align="right">138478</td>
+                    <td align="right">30219</td>
+                    <td align="right">20903</td>
+                    <td align="right">1482</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">14</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=KALIMPONG&district_code=3221&fin_year=2019-2020&source=national&Digest=2yKiCEnRvRQamGybQpxIBQ'>KALIMPONG</a></td>
+                  <td align="right">9863</td>
+                  <td align="right">2904</td>
+                  <td align="right">38268</td>
+                  <td align="right">14430</td>
+                    <td align="right">42538</td>
+                    <td align="right">19304</td>
+                     <td align="right">28632</td>
+                    <td align="right">14935</td>
+                      <td align="right">27522</td>
+                    <td align="right">13518</td>
+                    <td align="right">5530</td>
+                    <td align="right">1463</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">15</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=MALDAH&district_code=3209&fin_year=2019-2020&source=national&Digest=Mkj423RiCRUq9xrfxeTsfA'>MALDAH</a></td>
+                  <td align="right">186015</td>
+                  <td align="right">26944</td>
+                  <td align="right">591418</td>
+                  <td align="right">109275</td>
+                    <td align="right">626419</td>
+                    <td align="right">133666</td>
+                     <td align="right">480011</td>
+                    <td align="right">102503</td>
+                      <td align="right">328173</td>
+                    <td align="right">57682</td>
+                    <td align="right">30913</td>
+                    <td align="right">3089</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">16</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=MURSHIDABAD&district_code=3212&fin_year=2019-2020&source=national&Digest=pVUD/ytW0z6D/d7n62z4RA'>MURSHIDABAD</a></td>
+                  <td align="right">162468</td>
+                  <td align="right">10768</td>
+                  <td align="right">796844</td>
+                  <td align="right">68677</td>
+                    <td align="right">909911</td>
+                    <td align="right">96548</td>
+                     <td align="right">765221</td>
+                    <td align="right">94026</td>
+                      <td align="right">669921</td>
+                    <td align="right">80588</td>
+                    <td align="right">87962</td>
+                    <td align="right">7138</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">17</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=NADIA&district_code=3201&fin_year=2019-2020&source=national&Digest=xfgmhzWNPGEtqXkpD4QwdQ'>NADIA</a></td>
+                  <td align="right">45812</td>
+                  <td align="right">1325</td>
+                  <td align="right">550974</td>
+                  <td align="right">43555</td>
+                    <td align="right">586949</td>
+                    <td align="right">62180</td>
+                     <td align="right">528676</td>
+                    <td align="right">65798</td>
+                      <td align="right">462230</td>
+                    <td align="right">52148</td>
+                    <td align="right">73695</td>
+                    <td align="right">3684</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">18</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=PASCHIM+BARDHAMAN&district_code=3202&fin_year=2019-2020&source=national&Digest=+BQfZ5iMovuz6GtF2kx/zg'>PASCHIM BARDHAMAN</a></td>
+                  <td align="right">16232</td>
+                  <td align="right">1579</td>
+                  <td align="right">141495</td>
+                  <td align="right">24568</td>
+                    <td align="right">135500</td>
+                    <td align="right">27040</td>
+                     <td align="right">92537</td>
+                    <td align="right">20515</td>
+                      <td align="right">70871</td>
+                    <td align="right">12398</td>
+                    <td align="right">7167</td>
+                    <td align="right">510</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">19</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=PASCHIM+MEDINIPUR&district_code=3210&fin_year=2019-2020&source=national&Digest=Ch0nVwm1zlwq9IV6OTFFIA'>PASCHIM MEDINIPUR</a></td>
+                  <td align="right">122563</td>
+                  <td align="right">10083</td>
+                  <td align="right">631848</td>
+                  <td align="right">142861</td>
+                    <td align="right">700819</td>
+                    <td align="right">209447</td>
+                     <td align="right">528327</td>
+                    <td align="right">177398</td>
+                      <td align="right">373008</td>
+                    <td align="right">100196</td>
+                    <td align="right">34007</td>
+                    <td align="right">3019</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">20</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=PURBA+BARDHAMAN&district_code=3225&fin_year=2019-2020&source=national&Digest=OR00iNG7atnrGZBymJ3cNA'>PURBA BARDHAMAN</a></td>
+                  <td align="right">47278</td>
+                  <td align="right">5896</td>
+                  <td align="right">654043</td>
+                  <td align="right">148264</td>
+                    <td align="right">732145</td>
+                    <td align="right">220010</td>
+                     <td align="right">585811</td>
+                    <td align="right">204810</td>
+                      <td align="right">460895</td>
+                    <td align="right">141186</td>
+                    <td align="right">51702</td>
+                    <td align="right">7010</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">21</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=PURBA+MEDINIPUR&district_code=3211&fin_year=2019-2020&source=national&Digest=KugPapt8YmXMX0Oqr1AHCA'>PURBA MEDINIPUR</a></td>
+                  <td align="right">106794</td>
+                  <td align="right">8448</td>
+                  <td align="right">648713</td>
+                  <td align="right">105661</td>
+                    <td align="right">728664</td>
+                    <td align="right">160254</td>
+                     <td align="right">569592</td>
+                    <td align="right">134612</td>
+                      <td align="right">466891</td>
+                    <td align="right">85042</td>
+                    <td align="right">82677</td>
+                    <td align="right">7054</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">22</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=PURULIA&district_code=3214&fin_year=2019-2020&source=national&Digest=JPLZSwz3gg+cHjXzyT6buQ'>PURULIA</a></td>
+                  <td align="right">74494</td>
+                  <td align="right">6541</td>
+                  <td align="right">471823</td>
+                  <td align="right">78880</td>
+                    <td align="right">509197</td>
+                    <td align="right">111154</td>
+                     <td align="right">375247</td>
+                    <td align="right">90154</td>
+                      <td align="right">316281</td>
+                    <td align="right">53655</td>
+                    <td align="right">41814</td>
+                    <td align="right">2477</td>
+                  </tr>
+                
+                <tr>
+                <td align="center">23</td>
+                 <td align="left"><a href='age_reg_emp.aspx?lflag=eng&page=d&state_name=WEST+BENGAL&state_code=32&district_name=SILIGURI+MAHAKUMA+PARISAD&district_code=3204&fin_year=2019-2020&source=national&Digest=3r29MzVBfnz4NYDgH0/tpw'>SILIGURI MAHAKUMA PARISAD</a></td>
+                  <td align="right">17227</td>
+                  <td align="right">660</td>
+                  <td align="right">82255</td>
+                  <td align="right">8752</td>
+                    <td align="right">79364</td>
+                    <td align="right">11426</td>
+                     <td align="right">60554</td>
+                    <td align="right">9093</td>
+                      <td align="right">46165</td>
+                    <td align="right">5463</td>
+                    <td align="right">4752</td>
+                    <td align="right">282</td>
+                  </tr>
+                
+                <tr>
+                <td align="center"></td>
+                 <td align="left"><b>Total</b></td>
+                  <td align="right"><b>1888083 </b></td>
+                  <td align="right"><b>184017 </b></td>
+                  <td align="right"><b>10091970 </b></td>
+                  <td align="right"><b>1777887 </b></td>
+                    <td align="right"><b>10773911 </b></td>
+                    <td align="right"><b>2418155 </b></td>
+                     <td align="right"><b>8560047 </b></td>
+                    <td align="right"><b>2113813 </b></td>
+                      <td align="right"><b>6776702 </b></td>
+                    <td align="right"><b>1398482 </b></td>
+                    <td align="right"><b>832575 </b></td>
+                    <td align="right"><b>75824 </b></td>
+                  </tr>
+                
+            </table>
+            
