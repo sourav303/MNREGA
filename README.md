@@ -22,6 +22,23 @@ employment shifts and dependency quotient across age groups.
 - **41-50 age group** consistently had highest employment
 - **24 Parganas South** leads district-wise employment
 
+- - Dependency Quotient **declined from 3.28 → 2.81** during COVID-19
+- Dependent population (61+) became **MORE economically active** during pandemic
+- This **contradicts** the expected demographic dividend pattern
+
+## 📉 Dependency Quotient Analysis
+
+| Financial Year | DQ Value | Interpretation |
+|---|---|---|
+| 2018-19 | 3.28 | Pre-pandemic baseline |
+| 2019-20 | 2.85 | Early pandemic onset |
+| 2020-21 | 2.81 | Peak COVID impact |
+| 2021-22 | 3.08 | Partial recovery |
+
+**Formula:** DQ = Avg % Employment of Working Age (18–60) ÷ Avg % Employment of Dependent Age (61+)
+
+**Key Finding:** The declining DQ trend during pandemic years indicates that the dependent population increasingly contributed to rural household economics when working-age members lost urban employment — contradicting the projected demographic dividend pattern.
+
 ## 🛠️ Tools Used
 - Python (Pandas) — Data cleaning
 - SQL — Data analysis
