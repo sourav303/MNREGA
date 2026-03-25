@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MGNREGA Employment Analysis – West Bengal</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0b0f1a;
+    --panel: #111827;
+    --border: #1e2d45;
+    --accent: #00c9a7;
+    --accent2: #4f8ef7;
+    --accent3: #f7c44f;
+    --accent4: #f76b6b;
+    --text: #e8edf5;
+    --muted: #6b7a99;
+    --card: #141e30;
+    --glow: rgba(0,201,167,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0d1b2e 0%, #0b1620 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(0,201,167,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(79,142,247,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .header-inner { position: relative; z-index: 1; }
+  .badge {
+    display: inline-block;
+    background: rgba(0,201,167,0.12);
+    border: 1px solid rgba(0,201,167,0.3);
+    color: var(--accent);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 3.5vw, 36px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+  h1 span { color: var(--accent); }
+  .subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+  .meta-row {
+    display: flex; gap: 24px; margin-top: 18px; flex-wrap: wrap;
+  }
+  .meta-chip {
+    font-size: 10px; color: var(--muted);
+    border-left: 2px solid var(--accent);
+    padding-left: 8px;
+    line-height: 1.5;
+  }
+  .meta-chip strong { color: var(--text); display: block; font-size: 12px; }
+
+  /* ── CONTROLS ── */
+  .controls {
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+  }
+  .ctrl-group { display: flex; flex-direction: column; gap: 4px; }
+  .ctrl-group label {
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted);
+  }
+  select, .year-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    padding: 7px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color .2s;
+  }
+  select:hover, select:focus { border-color: var(--accent); }
+  .year-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+  .year-btn {
+    padding: 6px 14px;
+    border-radius: 3px;
+    font-size: 11px;
+    transition: all .2s;
+  }
+  .year-btn.active {
+    background: var(--accent);
+    color: #0b0f1a;
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+  .year-btn:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+  /* ── MAIN LAYOUT ── */
+  main { padding: 28px 40px; display: grid; gap: 24px; }
+
+  /* ── KPI ROW ── */
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+  }
+  .kpi-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .kpi-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .kpi-label { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+  .kpi-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px; font-weight: 800;
+    color: var(--accent);
+    margin: 6px 0 2px;
+    line-height: 1;
+  }
+  .kpi-sub { font-size: 10px; color: var(--muted); }
+  .kpi-delta { font-size: 10px; margin-top: 4px; }
+  .kpi-delta.up { color: #4ade80; }
+  .kpi-delta.down { color: var(--accent4); }
+
+  /* ── CHARTS GRID ── */
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .charts-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  @media(max-width:900px) { .charts-grid,.charts-grid-3 { grid-template-columns:1fr; } }
+
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    transition: border-color .2s;
+  }
+  .chart-card:hover { border-color: rgba(0,201,167,0.3); }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+  .chart-desc { font-size: 10px; color: var(--muted); margin-bottom: 16px; }
+  .chart-wrap { position: relative; height: 260px; }
+  .chart-wrap.tall { height: 320px; }
+  .chart-wrap.short { height: 200px; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; margin-top: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  thead tr { border-bottom: 1px solid var(--accent); }
+  th { padding: 8px 12px; text-align: left; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+  td { padding: 7px 12px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: rgba(0,201,167,0.04); }
+  .bar-cell { position: relative; }
+  .bar-fill {
+    height: 6px; border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    margin-top: 3px;
+    transition: width .4s;
+  }
+  .highlight { color: var(--accent); font-weight: 700; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 10px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.5px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  .section-heading {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-heading::after { content:''; flex:1; height:1px; background:var(--border); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="badge">Data Analysis · West Bengal</div>
+    <h1>MGNREGA Employment<br/><span>Age-wise Analysis</span></h1>
+    <p class="subtitle">Mahatma Gandhi National Rural Employment Guarantee Act · 2018–2022</p>
+    <div class="meta-row">
+      <div class="meta-chip"><strong>23 Districts</strong>West Bengal</div>
+      <div class="meta-chip"><strong>4 Financial Years</strong>2018–19 to 2021–22</div>
+      <div class="meta-chip"><strong>6 Age Groups</strong>18–30 to 80+</div>
+      <div class="meta-chip"><strong>Source</strong>MoRD, Govt. of India</div>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="ctrl-group">
+    <label>Financial Year</label>
+    <div class="year-btns" id="yearBtns">
+      <button class="year-btn active" data-year="all">All Years</button>
+      <button class="year-btn" data-year="2018-19">2018–19</button>
+      <button class="year-btn" data-year="2019-20">2019–20</button>
+      <button class="year-btn" data-year="2020-21">2020–21</button>
+      <button class="year-btn" data-year="2021-22">2021–22</button>
+    </div>
+  </div>
+  <div class="ctrl-group">
+    <label>District Filter</label>
+    <select id="districtSelect">
+      <option value="all">All Districts</option>
+    </select>
+  </div>
+  <div class="ctrl-group">
+    <label>Metric</label>
+    <select id="metricSelect">
+      <option value="emp">Employed Persons</option>
+      <option value="reg">Registered Persons</option>
+      <option value="rate">Employment Rate (%)</option>
+    </select>
+  </div>
+</div>
+
+<main>
+  <!-- KPIs -->
+  <div>
+    <div class="section-heading">Key Indicators</div>
+    <div class="kpi-row" id="kpiRow"></div>
+  </div>
+
+  <!-- Row 1 charts -->
+  <div>
+    <div class="section-heading">Trend & Distribution</div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-title">Employment by Age Group · Year-over-Year</div>
+        <div class="chart-desc">Total employed persons per age bracket across financial years</div>
+        <div class="chart-wrap"><canvas id="chartTrend"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Age-Group Share of Employment</div>
+        <div class="chart-desc">Proportional contribution of each age group (selected year)</div>
+        <div class="chart-wrap"><canvas id="chartPie"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dependency Quotient -->
+  <div>
+    <div class="section-heading">Dependency Analysis</div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-title">Dependency Quotient by Year</div>
+        <div class="chart-desc">Ratio of working-age (18–60) to dependent-age (61+) employed persons</div>
+        <div class="chart-wrap short"><canvas id="chartDQ"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Working-Age vs Dependent Employment</div>
+        <div class="chart-desc">Stacked comparison across years – pre & post COVID-19</div>
+        <div class="chart-wrap short"><canvas id="chartStack"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- District bar -->
+  <div>
+    <div class="section-heading">District-wise Breakdown</div>
+    <div class="chart-card full">
+      <div class="chart-title">Total Employment by District</div>
+      <div class="chart-desc">Aggregated across selected year(s) and age groups</div>
+      <div class="chart-wrap tall"><canvas id="chartDistrict"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Employment Rate heatmap-style grouped bar -->
+  <div>
+    <div class="section-heading">Employment Rate (%) by Age Group</div>
+    <div class="chart-card full">
+      <div class="chart-title">Employment Rate = Employed / Registered × 100</div>
+      <div class="chart-desc">Shows how effectively registered workers are mobilised per age cohort</div>
+      <div class="chart-wrap tall"><canvas id="chartRate"></canvas></div>
+    </div>
+  </div>
+
+  <!-- District Table -->
+  <div>
+    <div class="section-heading">District Data Table</div>
+    <div class="chart-card full">
+      <div class="chart-title">District-wise Summary</div>
+      <div class="chart-desc">Total registered, employed and employment rate for selected filters</div>
+      <div class="table-wrap"><table id="dataTable"><thead></thead><tbody></tbody></table></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  MGNREGA Analysis · West Bengal &nbsp;|&nbsp; Data: Ministry of Rural Development, Govt. of India &nbsp;|&nbsp;
+  <a href="https://github.com/sourav303" target="_blank">github.com/sourav303</a>
+</footer>
+
+<script>
+// ── RAW DATA ──────────────────────────────────────────────────────────────
+const RAW = [{"year":"2018-19","district":"24 PARGANAS (NORTH)","18-30_reg":101141,"18-30_emp":17183,"31-40_reg":616110,"31-40_emp":102420,"41-50_reg":604775,"41-50_emp":126498,"51-60_reg":530852,"51-60_emp":112405,"61-80_reg":424584,"61-80_emp":71189,"80+_reg":50125,"80+_emp":3450},{"year":"2018-19","district":"24 PARGANAS SOUTH","18-30_reg":356163,"18-30_emp":105190,"31-40_reg":1122581,"31-40_emp":324820,"41-50_reg":1073341,"41-50_emp":346292,"51-60_reg":756449,"51-60_emp":249317,"61-80_reg":518549,"61-80_emp":139136,"80+_reg":52710,"80+_emp":6522},{"year":"2018-19","district":"ALIPURDUAR","18-30_reg":50514,"18-30_emp":17084,"31-40_reg":264282,"31-40_emp":106067,"41-50_reg":245353,"41-50_emp":113291,"51-60_reg":202733,"51-60_emp":98996,"61-80_reg":171229,"61-80_emp":68491,"80+_reg":23451,"80+_emp":3540},{"year":"2018-19","district":"BANKURA","18-30_reg":77518,"18-30_emp":20511,"31-40_reg":570485,"31-40_emp":235533,"41-50_reg":571037,"41-50_emp":264531,"51-60_reg":438479,"51-60_emp":206550,"61-80_reg":360705,"61-80_emp":113943,"80+_reg":41122,"80+_emp":4074},{"year":"2018-19","district":"BIRBHUM","18-30_reg":65727,"18-30_emp":18497,"31-40_reg":554972,"31-40_emp":170998,"41-50_reg":598715,"41-50_emp":229108,"51-60_reg":465480,"51-60_emp":200046,"61-80_reg":383573,"61-80_emp":135820,"80+_reg":38357,"80+_emp":5953},{"year":"2018-19","district":"COOCHBEHAR","18-30_reg":81911,"18-30_emp":31657,"31-40_reg":438404,"31-40_emp":169715,"41-50_reg":449441,"41-50_emp":196618,"51-60_reg":397202,"51-60_emp":186067,"61-80_reg":341930,"61-80_emp":131042,"80+_reg":49836,"80+_emp":7678},{"year":"2018-19","district":"Darjeeling Gorkha Hill Council (DGHC)","18-30_reg":21154,"18-30_emp":7746,"31-40_reg":92795,"31-40_emp":33876,"41-50_reg":93718,"41-50_emp":43399,"51-60_reg":61830,"51-60_emp":30290,"61-80_reg":54187,"61-80_emp":22502,"80+_reg":8075,"80+_emp":1506},{"year":"2018-19","district":"DINAJPUR DAKSHIN","18-30_reg":46209,"18-30_emp":12597,"31-40_reg":260851,"31-40_emp":51776,"41-50_reg":295375,"41-50_emp":63164,"51-60_reg":234357,"51-60_emp":49406,"61-80_reg":157060,"61-80_emp":23946,"80+_reg":11748,"80+_emp":636},{"year":"2018-19","district":"DINAJPUR UTTAR","18-30_reg":110062,"18-30_emp":28564,"31-40_reg":394713,"31-40_emp":81785,"41-50_reg":423343,"41-50_emp":97391,"51-60_reg":343581,"51-60_emp":82799,"61-80_reg":264863,"61-80_emp":50911,"80+_reg":31999,"80+_emp":2709},{"year":"2018-19","district":"HOOGHLY","18-30_reg":91114,"18-30_emp":34747,"31-40_reg":461019,"31-40_emp":208875,"41-50_reg":538065,"41-50_emp":288267,"51-60_reg":456168,"51-60_emp":257984,"61-80_reg":356099,"61-80_emp":168253,"80+_reg":40350,"80+_emp":7439},{"year":"2018-19","district":"HOWRAH","18-30_reg":45345,"18-30_emp":13807,"31-40_reg":212568,"31-40_emp":53004,"41-50_reg":266040,"41-50_emp":73730,"51-60_reg":218264,"51-60_emp":60772,"61-80_reg":147854,"61-80_emp":34645,"80+_reg":13216,"80+_emp":1297},{"year":"2018-19","district":"JALPAIGURI","18-30_reg":34908,"18-30_emp":13265,"31-40_reg":311852,"31-40_emp":115124,"41-50_reg":331211,"41-50_emp":137168,"51-60_reg":269874,"51-60_emp":117745,"61-80_reg":232324,"61-80_emp":81057,"80+_reg":30225,"80+_emp":4055},{"year":"2018-19","district":"JHARGRAM","18-30_reg":17516,"18-30_emp":4942,"31-40_reg":180273,"31-40_emp":50141,"41-50_reg":227387,"41-50_emp":72388,"51-60_reg":165342,"51-60_emp":56017,"61-80_reg":138478,"61-80_emp":32086,"80+_reg":20903,"80+_emp":1405},{"year":"2018-19","district":"KALIMPONG","18-30_reg":9863,"18-30_emp":5693,"31-40_reg":38268,"31-40_emp":17272,"41-50_reg":42538,"41-50_emp":20675,"51-60_reg":28632,"51-60_emp":15410,"61-80_reg":27522,"61-80_emp":13927,"80+_reg":5530,"80+_emp":1447},{"year":"2018-19","district":"MALDAH","18-30_reg":186015,"18-30_emp":59449,"31-40_reg":591418,"31-40_emp":157219,"41-50_reg":626419,"41-50_emp":172563,"51-60_reg":480011,"51-60_emp":128071,"61-80_reg":328173,"61-80_emp":69114,"80+_reg":30913,"80+_emp":3662},{"year":"2018-19","district":"MURSHIDABAD","18-30_reg":162224,"18-30_emp":25076,"31-40_reg":793642,"31-40_emp":114558,"41-50_reg":906765,"41-50_emp":151685,"51-60_reg":761580,"51-60_emp":144140,"61-80_reg":667974,"61-80_emp":116351,"80+_reg":87745,"80+_emp":7739},{"year":"2018-19","district":"NADIA","18-30_reg":45812,"18-30_emp":5263,"31-40_reg":550974,"31-40_emp":80954,"41-50_reg":586949,"41-50_emp":111395,"51-60_reg":528676,"51-60_emp":113610,"61-80_reg":462230,"61-80_emp":84000,"80+_reg":73695,"80+_emp":5115},{"year":"2018-19","district":"PASCHIM BARDHAMAN","18-30_reg":16232,"18-30_emp":2552,"31-40_reg":141495,"31-40_emp":31733,"41-50_reg":135500,"41-50_emp":34572,"51-60_reg":92537,"51-60_emp":25306,"61-80_reg":70871,"61-80_emp":14490,"80+_reg":7167,"80+_emp":497},{"year":"2018-19","district":"PASCHIM MEDINIPUR","18-30_reg":122563,"18-30_emp":36997,"31-40_reg":631848,"31-40_emp":241064,"41-50_reg":700819,"41-50_emp":319983,"51-60_reg":528327,"51-60_emp":257273,"61-80_reg":373008,"61-80_emp":137157,"80+_reg":34007,"80+_emp":3870},{"year":"2018-19","district":"PURBA BARDHAMAN","18-30_reg":47278,"18-30_emp":13013,"31-40_reg":654042,"31-40_emp":211323,"41-50_reg":732145,"41-50_emp":297380,"51-60_reg":585811,"51-60_emp":268358,"61-80_reg":460895,"61-80_emp":179270,"80+_reg":51702,"80+_emp":8050},{"year":"2018-19","district":"PURBA MEDINIPUR","18-30_reg":106794,"18-30_emp":17984,"31-40_reg":648713,"31-40_emp":143066,"41-50_reg":728664,"41-50_emp":210387,"51-60_reg":569591,"51-60_emp":177787,"61-80_reg":466891,"61-80_emp":113035,"80+_reg":82677,"80+_emp":9475},{"year":"2018-19","district":"PURULIA","18-30_reg":74494,"18-30_emp":17688,"31-40_reg":471823,"31-40_emp":117198,"41-50_reg":509197,"41-50_emp":154870,"51-60_reg":375247,"51-60_emp":119314,"61-80_reg":316281,"61-80_emp":66304,"80+_reg":41814,"80+_emp":2725},{"year":"2018-19","district":"SILIGURI MAHAKUMA PARISAD","18-30_reg":17227,"18-30_emp":1580,"31-40_reg":82255,"31-40_emp":13955,"41-50_reg":79364,"41-50_emp":17890,"51-60_reg":60554,"51-60_emp":13351,"61-80_reg":46165,"61-80_emp":7717,"80+_reg":4752,"80+_emp":360},{"year":"2019-20","district":"24 PARGANAS (NORTH)","18-30_reg":101077,"18-30_emp":22371,"31-40_reg":615979,"31-40_emp":101606,"41-50_reg":604664,"41-50_emp":117599,"51-60_reg":530791,"51-60_emp":102495,"61-80_reg":424540,"61-80_emp":63986,"80+_reg":50119,"80+_emp":2822},{"year":"2019-20","district":"24 PARGANAS SOUTH","18-30_reg":356097,"18-30_emp":160016,"31-40_reg":1122510,"31-40_emp":352850,"41-50_reg":1073302,"41-50_emp":338515,"51-60_reg":756420,"51-60_emp":238164,"61-80_reg":518531,"61-80_emp":127411,"80+_reg":52709,"80+_emp":5736},{"year":"2019-20","district":"ALIPURDUAR","18-30_reg":50510,"18-30_emp":26380,"31-40_reg":264264,"31-40_emp":117218,"41-50_reg":245341,"41-50_emp":115883,"51-60_reg":202727,"51-60_emp":97800,"61-80_reg":171228,"61-80_emp":64901,"80+_reg":23451,"80+_emp":3193},{"year":"2019-20","district":"BANKURA","18-30_reg":77446,"18-30_emp":29230,"31-40_reg":570334,"31-40_emp":229734,"41-50_reg":570921,"41-50_emp":252962,"51-60_reg":438411,"51-60_emp":193042,"61-80_reg":360640,"61-80_emp":102883,"80+_reg":41117,"80+_emp":3713},{"year":"2019-20","district":"BIRBHUM","18-30_reg":65720,"18-30_emp":31031,"31-40_reg":554936,"31-40_emp":214999,"41-50_reg":598679,"41-50_emp":264501,"51-60_reg":465458,"51-60_emp":213571,"61-80_reg":383556,"61-80_emp":130958,"80+_reg":38355,"80+_emp":5488},{"year":"2019-20","district":"COOCHBEHAR","18-30_reg":81905,"18-30_emp":37893,"31-40_reg":438381,"31-40_emp":192804,"41-50_reg":449420,"41-50_emp":204878,"51-60_reg":397188,"51-60_emp":188399,"61-80_reg":341925,"61-80_emp":128736,"80+_reg":49834,"80+_emp":7131},{"year":"2019-20","district":"Darjeeling Gorkha Hill Council (DGHC)","18-30_reg":21154,"18-30_emp":8765,"31-40_reg":92792,"31-40_emp":37437,"41-50_reg":93716,"41-50_emp":43574,"51-60_reg":61829,"51-60_emp":29564,"61-80_reg":54186,"61-80_emp":21320,"80+_reg":8075,"80+_emp":1372},{"year":"2019-20","district":"DINAJPUR DAKSHIN","18-30_reg":46207,"18-30_emp":16141,"31-40_reg":260832,"31-40_emp":65434,"41-50_reg":295368,"41-50_emp":74574,"51-60_reg":234348,"51-60_emp":57042,"61-80_reg":157056,"61-80_emp":26660,"80+_reg":11748,"80+_emp":623},{"year":"2019-20","district":"DINAJPUR UTTAR","18-30_reg":110057,"18-30_emp":34862,"31-40_reg":394695,"31-40_emp":97618,"41-50_reg":423332,"41-50_emp":110649,"51-60_reg":343572,"51-60_emp":91700,"61-80_reg":264858,"61-80_emp":54217,"80+_reg":31998,"80+_emp":2712},{"year":"2019-20","district":"HOOGHLY","18-30_reg":91113,"18-30_emp":43038,"31-40_reg":461007,"31-40_emp":235018,"41-50_reg":538060,"41-50_emp":295861,"51-60_reg":456162,"51-60_emp":261695,"61-80_reg":356093,"61-80_emp":163039,"80+_reg":40349,"80+_emp":7060},{"year":"2019-20","district":"HOWRAH","18-30_reg":45343,"18-30_emp":16237,"31-40_reg":212561,"31-40_emp":62478,"41-50_reg":266034,"41-50_emp":82217,"51-60_reg":218259,"51-60_emp":67072,"61-80_reg":147851,"61-80_emp":36441,"80+_reg":13215,"80+_emp":1269},{"year":"2019-20","district":"JALPAIGURI","18-30_reg":34907,"18-30_emp":17004,"31-40_reg":311845,"31-40_emp":127997,"41-50_reg":331207,"41-50_emp":142534,"51-60_reg":269870,"51-60_emp":119965,"61-80_reg":232321,"61-80_emp":79710,"80+_reg":30224,"80+_emp":3961},{"year":"2019-20","district":"JHARGRAM","18-30_reg":17516,"18-30_emp":5919,"31-40_reg":180271,"31-40_emp":59085,"41-50_reg":227386,"41-50_emp":82527,"51-60_reg":165341,"51-60_emp":62019,"61-80_reg":138477,"61-80_emp":35478,"80+_reg":20902,"80+_emp":1500},{"year":"2019-20","district":"KALIMPONG","18-30_reg":9863,"18-30_emp":6076,"31-40_reg":38267,"31-40_emp":18466,"41-50_reg":42537,"41-50_emp":21525,"51-60_reg":28631,"51-60_emp":15622,"61-80_reg":27522,"61-80_emp":13687,"80+_reg":5530,"80+_emp":1405},{"year":"2019-20","district":"MALDAH","18-30_reg":186009,"18-30_emp":74013,"31-40_reg":591410,"31-40_emp":194600,"41-50_reg":626413,"41-50_emp":205497,"51-60_reg":480007,"51-60_emp":148905,"61-80_reg":328170,"61-80_emp":72617,"80+_reg":30912,"80+_emp":3574},{"year":"2019-20","district":"MURSHIDABAD","18-30_reg":162215,"18-30_emp":39267,"31-40_reg":793614,"31-40_emp":157619,"41-50_reg":906750,"41-50_emp":195374,"51-60_reg":761564,"51-60_emp":172696,"61-80_reg":667961,"61-80_emp":127029,"80+_reg":87743,"80+_emp":8137},{"year":"2019-20","district":"NADIA","18-30_reg":45810,"18-30_emp":9261,"31-40_reg":550962,"31-40_emp":107571,"41-50_reg":586943,"41-50_emp":135977,"51-60_reg":528670,"51-60_emp":127938,"61-80_reg":462225,"61-80_emp":92087,"80+_reg":73693,"80+_emp":5395},{"year":"2019-20","district":"PASCHIM BARDHAMAN","18-30_reg":16231,"18-30_emp":3498,"31-40_reg":141490,"31-40_emp":41040,"41-50_reg":135498,"41-50_emp":42027,"51-60_reg":92535,"51-60_emp":29892,"61-80_reg":70869,"61-80_emp":16289,"80+_reg":7166,"80+_emp":497},{"year":"2019-20","district":"PASCHIM MEDINIPUR","18-30_reg":122558,"18-30_emp":46905,"31-40_reg":631839,"31-40_emp":286498,"41-50_reg":700813,"41-50_emp":349697,"51-60_reg":528322,"51-60_emp":268282,"61-80_reg":373004,"61-80_emp":138891,"80+_reg":34006,"80+_emp":3755},{"year":"2019-20","district":"PURBA BARDHAMAN","18-30_reg":47276,"18-30_emp":16754,"31-40_reg":654031,"31-40_emp":248477,"41-50_reg":732138,"41-50_emp":319693,"51-60_reg":585803,"51-60_emp":280561,"61-80_reg":460889,"61-80_emp":183226,"80+_reg":51700,"80+_emp":8010},{"year":"2019-20","district":"PURBA MEDINIPUR","18-30_reg":106789,"18-30_emp":24939,"31-40_reg":648705,"31-40_emp":181804,"41-50_reg":728658,"41-50_emp":241261,"51-60_reg":569586,"51-60_emp":197982,"61-80_reg":466887,"61-80_emp":120234,"80+_reg":82676,"80+_emp":9730},{"year":"2019-20","district":"PURULIA","18-30_reg":74490,"18-30_emp":25699,"31-40_reg":471810,"31-40_emp":153555,"41-50_reg":509189,"41-50_emp":183428,"51-60_reg":375241,"51-60_emp":137053,"61-80_reg":316277,"61-80_emp":75263,"80+_reg":41813,"80+_emp":2895},{"year":"2019-20","district":"SILIGURI MAHAKUMA PARISAD","18-30_reg":17226,"18-30_emp":2271,"31-40_reg":82251,"31-40_emp":18428,"41-50_reg":79362,"41-50_emp":22099,"51-60_reg":60553,"51-60_emp":16302,"61-80_reg":46164,"61-80_emp":9447,"80+_reg":4752,"80+_emp":388},{"year":"2020-21","district":"24 PARGANAS (NORTH)","18-30_reg":68170,"18-30_emp":12262,"31-40_reg":571759,"31-40_emp":80227,"41-50_reg":520316,"41-50_emp":92109,"51-60_reg":414795,"51-60_emp":72080,"61-80_reg":295682,"61-80_emp":39057,"80+_reg":29108,"80+_emp":1704},{"year":"2020-21","district":"24 PARGANAS SOUTH","18-30_reg":177934,"18-30_emp":45780,"31-40_reg":941364,"31-40_emp":189951,"41-50_reg":802379,"41-50_emp":181399,"51-60_reg":534245,"51-60_emp":117542,"61-80_reg":328021,"61-80_emp":57879,"80+_reg":29446,"80+_emp":2880},{"year":"2020-21","district":"ALIPURDUAR","18-30_reg":33225,"18-30_emp":12025,"31-40_reg":258312,"31-40_emp":89638,"41-50_reg":205009,"41-50_emp":81181,"51-60_reg":164275,"51-60_emp":66801,"61-80_reg":129612,"61-80_emp":43238,"80+_reg":15772,"80+_emp":2714},{"year":"2020-21","district":"BANKURA","18-30_reg":58851,"18-30_emp":14795,"31-40_reg":594434,"31-40_emp":152057,"41-50_reg":467352,"41-50_emp":125654,"51-60_reg":347234,"51-60_emp":91167,"61-80_reg":255824,"61-80_emp":44176,"80+_reg":23052,"80+_emp":1563},{"year":"2020-21","district":"BIRBHUM","18-30_reg":50297,"18-30_emp":14862,"31-40_reg":482516,"31-40_emp":110533,"41-50_reg":490003,"41-50_emp":131430,"51-60_reg":369698,"51-60_emp":105706,"61-80_reg":283346,"61-80_emp":67977,"80+_reg":24779,"80+_emp":3182},{"year":"2020-21","district":"COOCHBEHAR","18-30_reg":51938,"18-30_emp":16786,"31-40_reg":374428,"31-40_emp":104622,"41-50_reg":369027,"41-50_emp":113449,"51-60_reg":307513,"51-60_emp":98804,"61-80_reg":255617,"61-80_emp":72038,"80+_reg":34416,"80+_emp":4565},{"year":"2020-21","district":"Darjeeling Gorkha Hill Council (DGHC)","18-30_reg":14659,"18-30_emp":4115,"31-40_reg":76455,"31-40_emp":22698,"41-50_reg":77018,"41-50_emp":26513,"51-60_reg":48543,"51-60_emp":17060,"61-80_reg":38538,"61-80_emp":12206,"80+_reg":5669,"80+_emp":820},{"year":"2020-21","district":"DINAJPUR DAKSHIN","18-30_reg":32267,"18-30_emp":7778,"31-40_reg":227099,"31-40_emp":47244,"41-50_reg":246430,"41-50_emp":55625,"51-60_reg":185462,"51-60_emp":43096,"61-80_reg":113249,"61-80_emp":19282,"80+_reg":7869,"80+_emp":431},{"year":"2020-21","district":"DINAJPUR UTTAR","18-30_reg":77286,"18-30_emp":18440,"31-40_reg":338620,"31-40_emp":70619,"41-50_reg":350050,"41-50_emp":81869,"51-60_reg":270879,"51-60_emp":65551,"61-80_reg":193316,"61-80_emp":36750,"80+_reg":21534,"80+_emp":1714},{"year":"2020-21","district":"HOOGHLY","18-30_reg":62524,"18-30_emp":19619,"31-40_reg":398249,"31-40_emp":131462,"41-50_reg":443774,"41-50_emp":162756,"51-60_reg":363697,"51-60_emp":142350,"61-80_reg":264574,"61-80_emp":91498,"80+_reg":27447,"80+_emp":4397},{"year":"2020-21","district":"HOWRAH","18-30_reg":30716,"18-30_emp":7250,"31-40_reg":179814,"31-40_emp":38073,"41-50_reg":214784,"41-50_emp":49742,"51-60_reg":169497,"51-60_emp":43137,"61-80_reg":106023,"61-80_emp":22734,"80+_reg":8741,"80+_emp":756},{"year":"2020-21","district":"JALPAIGURI","18-30_reg":24376,"18-30_emp":8122,"31-40_reg":270527,"31-40_emp":78082,"41-50_reg":274386,"41-50_emp":88297,"51-60_reg":212918,"51-60_emp":76568,"61-80_reg":171085,"61-80_emp":52455,"80+_reg":20449,"80+_emp":2591},{"year":"2020-21","district":"JHARGRAM","18-30_reg":11927,"18-30_emp":2625,"31-40_reg":151025,"31-40_emp":32648,"41-50_reg":185613,"41-50_emp":45870,"51-60_reg":127978,"51-60_emp":37039,"61-80_reg":98960,"61-80_emp":22138,"80+_reg":14014,"80+_emp":861},{"year":"2020-21","district":"KALIMPONG","18-30_reg":6758,"18-30_emp":2656,"31-40_reg":31971,"31-40_emp":10640,"41-50_reg":34854,"41-50_emp":13363,"51-60_reg":22193,"51-60_emp":8917,"61-80_reg":19944,"61-80_emp":7266,"80+_reg":3771,"80+_emp":848},{"year":"2020-21","district":"MALDAH","18-30_reg":124817,"18-30_emp":33516,"31-40_reg":507580,"31-40_emp":103116,"41-50_reg":519499,"41-50_emp":111978,"51-60_reg":378843,"51-60_emp":84027,"61-80_reg":231768,"61-80_emp":41289,"80+_reg":19614,"80+_emp":1960},{"year":"2020-21","district":"MURSHIDABAD","18-30_reg":107049,"18-30_emp":19023,"31-40_reg":672088,"31-40_emp":89671,"41-50_reg":735124,"41-50_emp":114090,"51-60_reg":591285,"51-60_emp":96498,"61-80_reg":480695,"61-80_emp":67929,"80+_reg":57413,"80+_emp":4313},{"year":"2020-21","district":"NADIA","18-30_reg":30376,"18-30_emp":5696,"31-40_reg":474014,"31-40_emp":64988,"41-50_reg":480386,"41-50_emp":78705,"51-60_reg":406619,"51-60_emp":73079,"61-80_reg":330049,"61-80_emp":49673,"80+_reg":47621,"80+_emp":3092},{"year":"2020-21","district":"PASCHIM BARDHAMAN","18-30_reg":10773,"18-30_emp":1538,"31-40_reg":118640,"31-40_emp":21780,"41-50_reg":108553,"41-50_emp":22726,"51-60_reg":70673,"51-60_emp":16277,"61-80_reg":49310,"61-80_emp":8793,"80+_reg":4562,"80+_emp":293},{"year":"2020-21","district":"PASCHIM MEDINIPUR","18-30_reg":83484,"18-30_emp":22094,"31-40_reg":539046,"31-40_emp":144042,"41-50_reg":572736,"41-50_emp":183337,"51-60_reg":411369,"51-60_emp":146826,"61-80_reg":271062,"61-80_emp":80297,"80+_reg":20889,"80+_emp":2232},{"year":"2020-21","district":"PURBA BARDHAMAN","18-30_reg":32002,"18-30_emp":7215,"31-40_reg":558800,"31-40_emp":114694,"41-50_reg":594879,"41-50_emp":143977,"51-60_reg":452117,"51-60_emp":121888,"61-80_reg":325696,"61-80_emp":80225,"80+_reg":33049,"80+_emp":4352},{"year":"2020-21","district":"PURBA MEDINIPUR","18-30_reg":71227,"18-30_emp":12140,"31-40_reg":552568,"31-40_emp":89786,"41-50_reg":597065,"41-50_emp":123014,"51-60_reg":443008,"51-60_emp":97869,"61-80_reg":330698,"61-80_emp":62037,"80+_reg":52812,"80+_emp":5307},{"year":"2020-21","district":"PURULIA","18-30_reg":50217,"18-30_emp":9684,"31-40_reg":398461,"31-40_emp":73609,"41-50_reg":410337,"41-50_emp":85959,"51-60_reg":288961,"51-60_emp":62817,"61-80_reg":216432,"61-80_emp":34978,"80+_reg":25813,"80+_emp":1389},{"year":"2020-21","district":"SILIGURI MAHAKUMA PARISAD","18-30_reg":11531,"18-30_emp":1357,"31-40_reg":70208,"31-40_emp":11498,"41-50_reg":64697,"41-50_emp":13631,"51-60_reg":46379,"51-60_emp":9997,"61-80_reg":32432,"61-80_emp":5175,"80+_reg":3108,"80+_emp":212},{"year":"2021-22","district":"24 PARGANAS (NORTH)","18-30_reg":101148,"18-30_emp":6663,"31-40_reg":616317,"31-40_emp":71272,"41-50_reg":605045,"41-50_emp":96476,"51-60_reg":531159,"51-60_emp":89202,"61-80_reg":424784,"61-80_emp":58475,"80+_reg":50143,"80+_emp":3075},{"year":"2021-22","district":"24 PARGANAS SOUTH","18-30_reg":356163,"18-30_emp":23545,"31-40_reg":1122581,"31-40_emp":134409,"41-50_reg":1073341,"41-50_emp":164490,"51-60_reg":756449,"51-60_emp":123959,"61-80_reg":518549,"61-80_emp":75650,"80+_reg":52710,"80+_emp":4178},{"year":"2021-22","district":"ALIPURDUAR","18-30_reg":50514,"18-30_emp":6561,"31-40_reg":264282,"31-40_emp":79747,"41-50_reg":245353,"41-50_emp":92764,"51-60_reg":202733,"51-60_emp":86642,"61-80_reg":171229,"61-80_emp":62418,"80+_reg":23451,"80+_emp":3476},{"year":"2021-22","district":"BANKURA","18-30_reg":77518,"18-30_emp":6295,"31-40_reg":570487,"31-40_emp":141914,"41-50_reg":571037,"41-50_emp":165686,"51-60_reg":438479,"51-60_emp":135844,"61-80_reg":360705,"61-80_emp":80064,"80+_reg":41122,"80+_emp":2975},{"year":"2021-22","district":"BIRBHUM","18-30_reg":65727,"18-30_emp":8022,"31-40_reg":554974,"31-40_emp":101534,"41-50_reg":598718,"41-50_emp":139893,"51-60_reg":465482,"51-60_emp":126337,"61-80_reg":383575,"61-80_emp":77099,"80+_reg":38358,"80+_emp":3292},{"year":"2021-22","district":"COOCHBEHAR","18-30_reg":81911,"18-30_emp":9028,"31-40_reg":438404,"31-40_emp":112048,"41-50_reg":449441,"41-50_emp":134397,"51-60_reg":397202,"51-60_emp":122823,"61-80_reg":341930,"61-80_emp":83823,"80+_reg":49836,"80+_emp":5175},{"year":"2021-22","district":"Darjeeling Gorkha Hill Council (DGHC)","18-30_reg":21154,"18-30_emp":2297,"31-40_reg":92795,"31-40_emp":20983,"41-50_reg":93718,"41-50_emp":28043,"51-60_reg":61830,"51-60_emp":19461,"61-80_reg":54187,"61-80_emp":14745,"80+_reg":8075,"80+_emp":1021},{"year":"2021-22","district":"DINAJPUR DAKSHIN","18-30_reg":46209,"18-30_emp":3672,"31-40_reg":260854,"31-40_emp":40432,"41-50_reg":295376,"41-50_emp":53374,"51-60_reg":234358,"51-60_emp":44028,"61-80_reg":157061,"61-80_emp":20866,"80+_reg":11748,"80+_emp":494},{"year":"2021-22","district":"DINAJPUR UTTAR","18-30_reg":110062,"18-30_emp":11153,"31-40_reg":394716,"31-40_emp":62648,"41-50_reg":423344,"41-50_emp":83434,"51-60_reg":343582,"51-60_emp":72498,"61-80_reg":264864,"61-80_emp":45584,"80+_reg":31999,"80+_emp":2188},{"year":"2021-22","district":"HOOGHLY","18-30_reg":91114,"18-30_emp":12344,"31-40_reg":461020,"31-40_emp":124688,"41-50_reg":538066,"41-50_emp":175303,"51-60_reg":456169,"51-60_emp":161800,"61-80_reg":356100,"61-80_emp":103875,"80+_reg":40350,"80+_emp":4630},{"year":"2021-22","district":"HOWRAH","18-30_reg":45345,"18-30_emp":4064,"31-40_reg":212569,"31-40_emp":38154,"41-50_reg":266041,"41-50_emp":53968,"51-60_reg":218265,"51-60_emp":46018,"61-80_reg":147855,"61-80_emp":24981,"80+_reg":13216,"80+_emp":829},{"year":"2021-22","district":"JALPAIGURI","18-30_reg":34908,"18-30_emp":4625,"31-40_reg":311853,"31-40_emp":75862,"41-50_reg":331212,"41-50_emp":97154,"51-60_reg":269875,"51-60_emp":84028,"61-80_reg":232325,"61-80_emp":62050,"80+_reg":30225,"80+_emp":3219},{"year":"2021-22","district":"JHARGRAM","18-30_reg":17516,"18-30_emp":1628,"31-40_reg":180274,"31-40_emp":36462,"41-50_reg":227388,"41-50_emp":53564,"51-60_reg":165342,"51-60_emp":44048,"61-80_reg":138479,"61-80_emp":27524,"80+_reg":20904,"80+_emp":1032},{"year":"2021-22","district":"KALIMPONG","18-30_reg":9863,"18-30_emp":1843,"31-40_reg":38268,"31-40_emp":11099,"41-50_reg":42538,"41-50_emp":14804,"51-60_reg":28632,"51-60_emp":11172,"61-80_reg":27522,"61-80_emp":9434,"80+_reg":5530,"80+_emp":1012},{"year":"2021-22","district":"MALDAH","18-30_reg":186015,"18-30_emp":22025,"31-40_reg":591419,"31-40_emp":108065,"41-50_reg":626420,"41-50_emp":134893,"51-60_reg":480012,"51-60_emp":106263,"61-80_reg":328174,"61-80_emp":59068,"80+_reg":30913,"80+_emp":3047},{"year":"2021-22","district":"MURSHIDABAD","18-30_reg":162224,"18-30_emp":11895,"31-40_reg":793644,"31-40_emp":76019,"41-50_reg":906766,"41-50_emp":110892,"51-60_reg":761581,"51-60_emp":100476,"61-80_reg":667975,"61-80_emp":82062,"80+_reg":87745,"80+_emp":5696},{"year":"2021-22","district":"NADIA","18-30_reg":45812,"18-30_emp":3041,"31-40_reg":550975,"31-40_emp":59994,"41-50_reg":586950,"41-50_emp":86090,"51-60_reg":528677,"51-60_emp":81827,"61-80_reg":462231,"61-80_emp":61393,"80+_reg":73695,"80+_emp":3805},{"year":"2021-22","district":"PASCHIM BARDHAMAN","18-30_reg":16232,"18-30_emp":847,"31-40_reg":141496,"31-40_emp":21019,"41-50_reg":135501,"41-50_emp":25556,"51-60_reg":92537,"51-60_emp":18716,"61-80_reg":70871,"61-80_emp":10742,"80+_reg":7167,"80+_emp":333},{"year":"2021-22","district":"PASCHIM MEDINIPUR","18-30_reg":122563,"18-30_emp":13839,"31-40_reg":631849,"31-40_emp":143143,"41-50_reg":700820,"41-50_emp":192437,"51-60_reg":528328,"51-60_emp":163648,"61-80_reg":373009,"61-80_emp":90975,"80+_reg":34007,"80+_emp":2497},{"year":"2021-22","district":"PURBA BARDHAMAN","18-30_reg":47278,"18-30_emp":5369,"31-40_reg":654043,"31-40_emp":125390,"41-50_reg":732146,"41-50_emp":183070,"51-60_reg":585812,"51-60_emp":163685,"61-80_reg":460896,"61-80_emp":107680,"80+_reg":51702,"80+_emp":5408},{"year":"2021-22","district":"PURBA MEDINIPUR","18-30_reg":106794,"18-30_emp":7756,"31-40_reg":648714,"31-40_emp":94165,"41-50_reg":728665,"41-50_emp":139861,"51-60_reg":569592,"51-60_emp":116490,"61-80_reg":466892,"61-80_emp":72702,"80+_reg":82677,"80+_emp":6062},{"year":"2021-22","district":"PURULIA","18-30_reg":74494,"18-30_emp":5701,"31-40_reg":471824,"31-40_emp":79867,"41-50_reg":509198,"41-50_emp":102042,"51-60_reg":375248,"51-60_emp":78960,"61-80_reg":316282,"61-80_emp":49028,"80+_reg":41814,"80+_emp":1840},{"year":"2021-22","district":"SILIGURI MAHAKUMA PARISAD","18-30_reg":17227,"18-30_emp":766,"31-40_reg":82256,"31-40_emp":9397,"41-50_reg":79365,"41-50_emp":11905,"51-60_reg":60555,"51-60_emp":9291,"61-80_reg":46166,"61-80_emp":5764,"80+_reg":4752,"80+_emp":213}];
+
+const YEARS = ['2018-19','2019-20','2020-21','2021-22'];
+const AGE_GROUPS = ['18-30','31-40','41-50','51-60','61-80','80+'];
+const WORKING = ['18-30','31-40','41-50','51-60'];
+const DEPENDENT = ['61-80','80+'];
+const DISTRICTS = [...new Set(RAW.map(d=>d.district))].sort();
+
+const COLORS = ['#00c9a7','#4f8ef7','#f7c44f','#f76b6b','#a78bfa','#34d399'];
+const CHART_DEFAULTS = {
+  color: '#e8edf5',
+  font: { family: "'Space Mono', monospace", size: 11 }
+};
+
+Chart.defaults.color = CHART_DEFAULTS.color;
+Chart.defaults.font = CHART_DEFAULTS.font;
+
+// State
+let selYear = 'all', selDistrict = 'all', selMetric = 'emp';
+let charts = {};
+
+// Populate district dropdown
+const distSel = document.getElementById('districtSelect');
+DISTRICTS.forEach(d => {
+  const o = document.createElement('option');
+  o.value = d; o.textContent = d;
+  distSel.appendChild(o);
+});
+
+// Filters
+function filteredData() {
+  return RAW.filter(d =>
+    (selYear === 'all' || d.year === selYear) &&
+    (selDistrict === 'all' || d.district === selDistrict)
+  );
+}
+
+function totalEmp(rows) {
+  return rows.reduce((s,d) => s + AGE_GROUPS.reduce((ss,ag) => ss + d[`${ag}_emp`], 0), 0);
+}
+function totalReg(rows) {
+  return rows.reduce((s,d) => s + AGE_GROUPS.reduce((ss,ag) => ss + d[`${ag}_reg`], 0), 0);
+}
+function fmt(n) {
+  if (n >= 1e7) return (n/1e7).toFixed(2) + ' Cr';
+  if (n >= 1e5) return (n/1e5).toFixed(1) + ' L';
+  if (n >= 1e3) return (n/1e3).toFixed(0) + 'K';
+  return n.toLocaleString();
+}
+
+// ── KPIs ──────────────────────────────────────────────────────────────────
+function renderKPIs() {
+  const d = filteredData();
+  const emp = totalEmp(d);
+  const reg = totalReg(d);
+  const rate = reg > 0 ? (emp/reg*100).toFixed(1) : 0;
+
+  const wEmp = d.reduce((s,r) => s + WORKING.reduce((ss,ag)=>ss+r[`${ag}_emp`],0), 0);
+  const depEmp = d.reduce((s,r) => s + DEPENDENT.reduce((ss,ag)=>ss+r[`${ag}_emp`],0), 0);
+  const dq = depEmp > 0 ? (wEmp/depEmp).toFixed(2) : '–';
+
+  const kpis = [
+    { label:'Total Employed', value: fmt(emp), sub:'persons across selection' },
+    { label:'Total Registered', value: fmt(reg), sub:'persons enrolled' },
+    { label:'Employment Rate', value: rate + '%', sub:'employed / registered' },
+    { label:'Dependency Quotient', value: dq, sub:'working-age / dependent' },
+    { label:'Districts', value: selDistrict === 'all' ? '23' : '1', sub:'in West Bengal' },
+    { label:'Years Covered', value: selYear === 'all' ? '4' : '1', sub:'financial years' },
+  ];
+
+  document.getElementById('kpiRow').innerHTML = kpis.map(k => `
+    <div class="kpi-card">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.value}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>
+  `).join('');
+}
+
+// ── CHART HELPERS ─────────────────────────────────────────────────────────
+const gridOpts = {
+  color: 'rgba(255,255,255,0.06)',
+  borderColor: 'rgba(255,255,255,0.06)'
+};
+const tickOpts = { color: '#6b7a99' };
+
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+// ── CHART 1: Trend line per age group ──────────────────────────────────────
+function renderTrend() {
+  destroyChart('trend');
+  const data = filteredData();
+  const datasets = AGE_GROUPS.map((ag, i) => ({
+    label: ag,
+    data: YEARS.map(yr => {
+      const rows = data.filter(d => d.year === yr);
+      if (selMetric === 'rate') {
+        const e = rows.reduce((s,d)=>s+d[`${ag}_emp`],0);
+        const r = rows.reduce((s,d)=>s+d[`${ag}_reg`],0);
+        return r > 0 ? +(e/r*100).toFixed(1) : 0;
+      }
+      return rows.reduce((s,d)=>s+d[`${ag}_${selMetric}`],0);
+    }),
+    borderColor: COLORS[i],
+    backgroundColor: COLORS[i] + '22',
+    pointBackgroundColor: COLORS[i],
+    pointRadius: 4,
+    tension: 0.4,
+    fill: false,
+    borderWidth: 2,
+  }));
+  charts['trend'] = new Chart(document.getElementById('chartTrend'), {
+    type: 'line',
+    data: { labels: YEARS, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 12, color: '#6b7a99', font:{size:10} } } },
+      scales: {
+        x: { grid: gridOpts, ticks: tickOpts },
+        y: { grid: gridOpts, ticks: { ...tickOpts, callback: v => fmt(v) } }
+      }
+    }
+  });
+}
+
+// ── CHART 2: Pie ───────────────────────────────────────────────────────────
+function renderPie() {
+  destroyChart('pie');
+  const data = filteredData();
+  const vals = AGE_GROUPS.map(ag => {
+    if (selMetric === 'rate') {
+      const e = data.reduce((s,d)=>s+d[`${ag}_emp`],0);
+      const r = data.reduce((s,d)=>s+d[`${ag}_reg`],0);
+      return r > 0 ? +(e/r*100).toFixed(1) : 0;
+    }
+    return data.reduce((s,d)=>s+d[`${ag}_${selMetric}`],0);
+  });
+  charts['pie'] = new Chart(document.getElementById('chartPie'), {
+    type: 'doughnut',
+    data: {
+      labels: AGE_GROUPS,
+      datasets: [{ data: vals, backgroundColor: COLORS, borderColor: '#141e30', borderWidth: 3, hoverOffset: 8 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { boxWidth: 12, padding: 10, color: '#6b7a99', font:{size:10} } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${fmt(ctx.parsed)}` } }
+      },
+      cutout: '60%',
+    }
+  });
+}
+
+// ── CHART 3: Dependency Quotient ───────────────────────────────────────────
+function renderDQ() {
+  destroyChart('dq');
+  const dqVals = YEARS.map(yr => {
+    const rows = RAW.filter(d => d.year === yr && (selDistrict === 'all' || d.district === selDistrict));
+    const we = rows.reduce((s,d) => s + WORKING.reduce((ss,ag)=>ss+d[`${ag}_emp`],0), 0);
+    const de = rows.reduce((s,d) => s + DEPENDENT.reduce((ss,ag)=>ss+d[`${ag}_emp`],0), 0);
+    return de > 0 ? +(we/de).toFixed(2) : 0;
+  });
+
+  charts['dq'] = new Chart(document.getElementById('chartDQ'), {
+    type: 'bar',
+    data: {
+      labels: YEARS,
+      datasets: [{
+        label: 'Dependency Quotient',
+        data: dqVals,
+        backgroundColor: dqVals.map((v,i) => COLORS[i % COLORS.length] + 'cc'),
+        borderColor: dqVals.map((v,i) => COLORS[i % COLORS.length]),
+        borderWidth: 1.5,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: gridOpts, ticks: tickOpts },
+        y: { grid: gridOpts, ticks: tickOpts, beginAtZero: true }
+      }
+    }
+  });
+}
+
+// ── CHART 4: Stacked working vs dependent ─────────────────────────────────
+function renderStack() {
+  destroyChart('stack');
+  const workVals = YEARS.map(yr => {
+    const rows = RAW.filter(d => d.year === yr && (selDistrict === 'all' || d.district === selDistrict));
+    return rows.reduce((s,d) => s + WORKING.reduce((ss,ag)=>ss+d[`${ag}_emp`],0), 0);
+  });
+  const depVals = YEARS.map(yr => {
+    const rows = RAW.filter(d => d.year === yr && (selDistrict === 'all' || d.district === selDistrict));
+    return rows.reduce((s,d) => s + DEPENDENT.reduce((ss,ag)=>ss+d[`${ag}_emp`],0), 0);
+  });
+  charts['stack'] = new Chart(document.getElementById('chartStack'), {
+    type: 'bar',
+    data: {
+      labels: YEARS,
+      datasets: [
+        { label: 'Working-Age (18–60)', data: workVals, backgroundColor: '#00c9a7cc', borderRadius: 3 },
+        { label: 'Dependent (61+)', data: depVals, backgroundColor: '#f76b6bcc', borderRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position:'bottom', labels:{ boxWidth:10, color:'#6b7a99', font:{size:10} } } },
+      scales: {
+        x: { stacked: true, grid: gridOpts, ticks: tickOpts },
+        y: { stacked: true, grid: gridOpts, ticks: { ...tickOpts, callback: v => fmt(v) } }
+      }
+    }
+  });
+}
+
+// ── CHART 5: District Bar ──────────────────────────────────────────────────
+function renderDistrict() {
+  destroyChart('dist');
+  const data = filteredData();
+  const byDist = DISTRICTS.map(dist => {
+    const rows = data.filter(d => d.district === dist);
+    if (selMetric === 'rate') {
+      const e = rows.reduce((s,d) => s + AGE_GROUPS.reduce((ss,ag)=>ss+d[`${ag}_emp`],0), 0);
+      const r = rows.reduce((s,d) => s + AGE_GROUPS.reduce((ss,ag)=>ss+d[`${ag}_reg`],0), 0);
+      return { dist, val: r > 0 ? +(e/r*100).toFixed(1) : 0 };
+    }
+    return { dist, val: rows.reduce((s,d) => s + AGE_GROUPS.reduce((ss,ag)=>ss+d[`${ag}_${selMetric}`],0), 0) };
+  }).sort((a,b) => b.val - a.val);
+
+  charts['dist'] = new Chart(document.getElementById('chartDistrict'), {
+    type: 'bar',
+    data: {
+      labels: byDist.map(d => d.dist.length > 18 ? d.dist.slice(0,16)+'…' : d.dist),
+      datasets: [{
+        data: byDist.map(d => d.val),
+        backgroundColor: byDist.map((_,i) => COLORS[i % COLORS.length] + 'bb'),
+        borderColor: byDist.map((_,i) => COLORS[i % COLORS.length]),
+        borderWidth: 1, borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: gridOpts, ticks: { ...tickOpts, font:{size:9} } },
+        y: { grid: gridOpts, ticks: { ...tickOpts, callback: v => fmt(v) } }
+      }
+    }
+  });
+}
+
+// ── CHART 6: Employment Rate grouped bar ──────────────────────────────────
+function renderRate() {
+  destroyChart('rate');
+  const data = filteredData();
+  const datasets = YEARS.map((yr, i) => {
+    const rows = data.filter(d => d.year === yr);
+    return {
+      label: yr,
+      data: AGE_GROUPS.map(ag => {
+        const e = rows.reduce((s,d)=>s+d[`${ag}_emp`],0);
+        const r = rows.reduce((s,d)=>s+d[`${ag}_reg`],0);
+        return r > 0 ? +(e/r*100).toFixed(1) : 0;
+      }),
+      backgroundColor: COLORS[i] + 'aa',
+      borderColor: COLORS[i],
+      borderWidth: 1, borderRadius: 3,
+    };
+  });
+  charts['rate'] = new Chart(document.getElementById('chartRate'), {
+    type: 'bar',
+    data: { labels: AGE_GROUPS, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position:'bottom', labels:{ boxWidth:10, color:'#6b7a99', font:{size:10} } } },
+      scales: {
+        x: { grid: gridOpts, ticks: tickOpts },
+        y: { grid: gridOpts, ticks: tickOpts, title:{ display:true, text:'Employment Rate (%)', color:'#6b7a99', font:{size:10} } }
+      }
+    }
+  });
+}
+
+// ── TABLE ──────────────────────────────────────────────────────────────────
+function renderTable() {
+  const data = filteredData();
+  const byDist = DISTRICTS.map(dist => {
+    const rows = data.filter(d => d.district === dist);
+    const e = rows.reduce((s,d) => s + AGE_GROUPS.reduce((ss,ag)=>ss+d[`${ag}_emp`],0), 0);
+    const r = rows.reduce((s,d) => s + AGE_GROUPS.reduce((ss,ag)=>ss+d[`${ag}_reg`],0), 0);
+    const rate = r > 0 ? (e/r*100).toFixed(1) : 0;
+    return { dist, e, r, rate };
+  }).sort((a,b) => b.e - a.e);
+  const maxE = Math.max(...byDist.map(d=>d.e));
+
+  const thead = document.querySelector('#dataTable thead');
+  const tbody = document.querySelector('#dataTable tbody');
+  thead.innerHTML = `<tr><th>#</th><th>District</th><th>Registered</th><th>Employed</th><th>Emp. Rate</th><th style="width:120px">Bar</th></tr>`;
+  tbody.innerHTML = byDist.map((d,i) => `
+    <tr>
+      <td style="color:var(--muted)">${i+1}</td>
+      <td class="highlight">${d.dist}</td>
+      <td>${fmt(d.r)}</td>
+      <td>${fmt(d.e)}</td>
+      <td>${d.rate}%</td>
+      <td class="bar-cell"><div class="bar-fill" style="width:${(d.e/maxE*100).toFixed(1)}%"></div></td>
+    </tr>
+  `).join('');
+}
+
+// ── RENDER ALL ────────────────────────────────────────────────────────────
+function renderAll() {
+  renderKPIs();
+  renderTrend();
+  renderPie();
+  renderDQ();
+  renderStack();
+  renderDistrict();
+  renderRate();
+  renderTable();
+}
+
+// ── EVENTS ────────────────────────────────────────────────────────────────
+document.getElementById('yearBtns').addEventListener('click', e => {
+  const btn = e.target.closest('.year-btn');
+  if (!btn) return;
+  document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selYear = btn.dataset.year;
+  renderAll();
+});
+document.getElementById('districtSelect').addEventListener('change', e => {
+  selDistrict = e.target.value; renderAll();
+});
+document.getElementById('metricSelect').addEventListener('change', e => {
+  selMetric = e.target.value; renderAll();
+});
+
+// Init
+renderAll();
+</script>
+</body>
+</html>
